@@ -341,7 +341,7 @@ programa {
     tabuleiroReal[linha][coluna] = tabuleiroLetras[linha][coluna]
   }
   senao{
-    escreva("Você acertour!!")
+    escreva("Você acertou!!")
     tabuleiroReal[linha][coluna] = tabuleiroLetras[linha][coluna]
     totalnavios = totalnavios - 1
   }
@@ -349,11 +349,12 @@ programa {
   leia(tentarnovamente)
   se(tentarnovamente=='n' ou tentarnovamente =='N'){
     limpa()
+	retorne
     escreva("JOGO FINALIZADO.")
   }
   limpa()
   }enquanto(totalnavios!=0)
-
+  escreva("VOCÊ GANHOU!!!")
 
 
 
