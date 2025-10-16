@@ -1,7 +1,9 @@
 programa {
   inclua biblioteca Util --> u
   inteiro tabuleiro1[10][10]
-  inteiro x1, x2, y1, y2, choicepos, somateste, verificacao, testeX1, testeY1, testeX2, testeY2
+  caracter tabuleiroLetras[10][10]
+  caracter tabuleiroReal[10][10], tentarnovamente
+  inteiro x1, x2, y1, y2, choicepos, somateste, verificacao, testeX1, testeY1, testeX2, testeY2, linha, coluna, totalnavios = 31
   const inteiro resetar = 0
   
  
@@ -243,24 +245,9 @@ programa {
 
   }
   funcao testedaposSubmarino(){
-
-    somateste = 0
-    verificacao = 0
     testeX1 = x1
-    testeX2 = x2
     testeY1 = y1
-    testeY2 = y2
-    se(choicepos==1){
-      para(;testeX1<testeX2;testeX1++){
-        somateste = somateste + tabuleiro1[testeX1][testeY2]
-      }
-    }
-    senao se(choicepos==2){
-      para(;testeY1<testeY2;testeY1++){
-        somateste = somateste + tabuleiro1[testeX2][testeY1]
-      }
-    }
-    se(somateste!=0){
+    se(tabuleiro1[testeX1][testeY1]!=0){
     verificacao = 0
     }
     senao{
@@ -272,8 +259,49 @@ programa {
 
 
 
-
-
+ funcao definirposDef(){
+    posPortaAviao()
+    posEncouracado()
+    posCruzador()
+    posCruzador()
+    posCruzador()
+    posDestroier()
+    posDestroier()
+    posDestroier()
+    posDestroier()
+    posSubmarino()
+    posSubmarino()
+    posSubmarino()
+    posSubmarino()
+    posSubmarino()
+ }
+  
+  funcao definirTabuleiros(){
+    para(inteiro l=0;l<10;l++){
+      para(inteiro c=0;c<10;c++){
+        tabuleiroReal[l][c]= ' '
+        se(tabuleiro1[l][c]==5){
+          tabuleiroLetras[l][c] = 'P'
+        }
+        senao se(tabuleiro1[l][c]==4){
+          tabuleiroLetras[l][c] = 'E'
+        }
+        senao se(tabuleiro1[l][c]==3){
+          tabuleiroLetras[l][c] = 'C'
+        }
+        senao se(tabuleiro1[l][c]==2){
+          tabuleiroLetras[l][c] = 'D'
+        }
+        senao se(tabuleiro1[l][c]==1){
+          tabuleiroLetras[l][c] = 'S'
+        }
+        senao se(tabuleiro1[l][c]==0){
+          tabuleiroLetras[l][c] = '~'
+        }
+      }
+    }
+  }
+  
 
   funcao inicio() {
     para(inteiro l=0;l<10;l++){
@@ -281,25 +309,54 @@ programa {
         tabuleiro1[l][c]=0
       }  
   }
-    posPortaAviao()
-    posEncouracado()
-    posEncouracado()
-    posCruzador()
-    posCruzador()
-    posCruzador()
-    posDestroier()
-    posDestroier()
-    posDestroier()
-    posSubmarino()
-    posSubmarino()
-    posSubmarino()
-    posSubmarino()
-    posSubmarino()
-   para(inteiro l=0;l<10;l++){
-      para(inteiro c=0;c<10;c++){
-        escreva(" ",tabuleiro1[l][c]," ")
-      }
-      escreva("\n")
+  definirposDef()
+  definirTabuleiros()
+  faca{
+  escreva("                  - TABULEIRO -\n      ")
+  para(inteiro i = 0;i<10;i++){
+    escreva(i+1,"   ")
+  }
+  escreva("\n")
+  para(inteiro l=0;l<10;l++){
+    se(l<9){
+    escreva(l+1," - ")
     }
+    senao{
+      escreva(l+1," -")
+    }
+      para(inteiro c=0;c<10;c++){
+      escreva("| ",tabuleiroReal[l][c]," ")
+    }
+    escreva("| \n")
+  }
+  escreva("\nQual a Linha e Coluna respectivamente que você deseja? (Linha = ^ ) (Coluna = >)","\nNavios restantes : ",totalnavios,"\nLinha = ")
+  leia(linha)
+  escreva("Coluna = ")
+  leia(coluna)
+
+  linha = linha - 1
+  coluna = coluna - 1
+  se(tabuleiro1[linha][coluna]==0){
+    escreva("\nVocê errou!!")
+    tabuleiroReal[linha][coluna] = tabuleiroLetras[linha][coluna]
+  }
+  senao{
+    escreva("Você acertour!!")
+    tabuleiroReal[linha][coluna] = tabuleiroLetras[linha][coluna]
+    totalnavios = totalnavios - 1
+  }
+  escreva("\nDeseja continuar? [s/n]\n")
+  leia(tentarnovamente)
+  se(tentarnovamente=='n' ou tentarnovamente =='N'){
+    limpa()
+    escreva("JOGO FINALIZADO.")
+  }
+  limpa()
+  }enquanto(totalnavios!=0)
+
+
+
+
+
 }
 }
